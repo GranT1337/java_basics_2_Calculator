@@ -18,26 +18,30 @@ public class ConvertingToRPN {
 
         List<String> tokenList = Arrays.asList(calculated.split("(?<=[" + regex + "])|(?=[" + regex + "])"));
 
-        for (int i = 0; i < tokenList.size(); i++) {
-            String token = tokenList.get(i);
-
+        for (String token : tokenList) {
             if (methods.isNumber(token)) {
                 polishRecord.push(token);
             } else if (methods.isOpenBracket(token)) {
                 operators.push(token);
             } else if (methods.isCloseBracket(token)) {
+
                 while (!operators.empty() && !methods.isOpenBracket(operators.lastElement())) {
                     polishRecord.push(operators.pop());
                 }
+
                 if (!operators.isEmpty() && operators.peek().equals("(")) {
                     operators.pop();
                 } else {
                     throw new BracketException();
                 }
+
             } else if (methods.isOperator(token)) {
-                while (!operators.empty() && methods.isOperator(operators.lastElement()) && methods.priorityOperator(token) <= methods.priorityOperator(operators.lastElement())) {
+
+                while (!operators.empty() && methods.isOperator(operators.lastElement()) &&
+                        methods.priorityOperator(token) <= methods.priorityOperator(operators.lastElement())) {
                     polishRecord.push(operators.pop());
                 }
+
                 operators.push(token);
             }
         }
@@ -50,6 +54,7 @@ public class ConvertingToRPN {
         }
 
         list = new ArrayList<>(polishRecord);
+
         return list;
     }
 
