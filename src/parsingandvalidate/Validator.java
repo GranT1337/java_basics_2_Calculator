@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class Validator {
 
-    public static boolean validate(String string) throws InvalidStringException {
+    public static boolean validate(String string) {
         String regexForNotNumbers = "[^(.)/*\\-+0-9]";
         String regexForRepeatOps = "[./*\\-+]{2,}";
         String regexForBracketsOperations = "[(][/*][(]|[)][/*][)]";
@@ -24,7 +24,7 @@ public class Validator {
         boolean findBadSymbols4 = matcherForNumNearBrackets.find();
 
         if (findBadSymbols1 | findBadSymbols2 | findBadSymbols3 | findBadSymbols4) {
-            throw new InvalidStringException();
+            throw new InvalidStringException("Недопустимая строка");
         }
 
         return true;

@@ -9,10 +9,11 @@ import parsingandvalidate.ParsingToNormalView;
 import parsingandvalidate.Validator;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class Result {
-    private CalculationRPN calculations = new CalculationRPN();
-    private ConvertingToRPN converting = new ConvertingToRPN();
+    private CalculationRPN calculationRPN = new CalculationRPN();
+    private ConvertingToRPN convertingToRPN = new ConvertingToRPN();
     private ParsingToNormalView parsingToNormalView = new ParsingToNormalView();
 
     public BigDecimal result(String calculated) {
@@ -20,10 +21,8 @@ public class Result {
         try {
             calculated = parsingToNormalView.parsingToNormalView(calculated);
             Validator.validate(calculated);
-            return calculations.calculations(converting.parse(calculated));
-        } catch (InvalidStringException e) {
-            System.err.println("Недопустимая строка");
-            System.exit(0);
+            List<String> tmpListRPN = convertingToRPN.parse(calculated);
+            return calculationRPN.calculations(tmpListRPN);
         } catch (BracketException e) {
             System.err.println("Неправильное положение скобок");
             System.exit(0);
